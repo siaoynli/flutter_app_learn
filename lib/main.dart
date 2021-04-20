@@ -3,15 +3,15 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-08 15:46:24
- * @LastEditTime: 2021-04-15 10:02:04
+ * @LastEditTime: 2021-04-20 10:12:37
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hangzhoutong/global.dart';
-import 'package:hangzhoutong/pages/welcome/welcome.dart';
 import 'package:hangzhoutong/routes.dart';
+import 'package:hangzhoutong/pages/index/index.dart';
 
 void main() => Global.init().then((e) => runApp(MyApp()));
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: WelcomePage(),
+        home: IndexPage(),
         routes: staticRoutes,
       ),
     );

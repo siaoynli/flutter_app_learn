@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-15 11:32:53
- * @LastEditTime: 2021-04-15 16:02:06
+ * @LastEditTime: 2021-04-20 10:59:01
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -17,19 +17,20 @@ import 'package:hangzhoutong/common/entity/article.dart';
 import 'package:hangzhoutong/common/entity/category.dart';
 import 'package:hangzhoutong/common/entity/focus.dart';
 import 'package:hangzhoutong/common/utils/utils.dart';
+import 'package:hangzhoutong/common/widgets/image.dart';
 import 'package:hangzhoutong/common/widgets/web_view.dart';
 
-class IndexPage extends StatefulWidget {
+class NewsPage extends StatefulWidget {
   final CategoryModel categoryModel;
 
   //@required 参数必须
-  const IndexPage({Key key, @required this.categoryModel}) : super(key: key);
+  const NewsPage({Key key, @required this.categoryModel}) : super(key: key);
 
   @override
-  _IndexPageState createState() => _IndexPageState();
+  _NewsPageState createState() => _NewsPageState();
 }
 
-class _IndexPageState extends State<IndexPage>
+class _NewsPageState extends State<NewsPage>
     with AutomaticKeepAliveClientMixin {
   List<FocusModel> _focus = [];
   List<ArticleModel> _articles = [];
@@ -139,10 +140,7 @@ class _IndexPageState extends State<IndexPage>
                       Container(
                         height: duSetHeight(200),
                         width: 1.sw,
-                        child: Image.network(
-                          _focus[index].ossThumbFile[0],
-                          fit: BoxFit.cover,
-                        ),
+                        child: imageCached(_focus[index].ossThumbFile[0]),
                       ),
                       Positioned(
                           child: Container(
@@ -205,16 +203,10 @@ class _IndexPageState extends State<IndexPage>
                   width: duSetWidth(120),
                   height: duSetWidth(100),
                   margin: EdgeInsets.only(right: 10),
-                  decoration: _articles[index].ossThumbFile.length == 0
-                      ? BoxDecoration(color: Colors.grey)
-                      : BoxDecoration(
-                          image: DecorationImage(
-                              image: NetworkImage(
-                                  _articles[index].ossThumbFile[0]),
-                              fit: BoxFit.cover),
-                        ),
                   child: _articles[index].ossThumbFile.length == 0
                       ? Container(
+                          decoration: BoxDecoration(
+                              color: Colors.grey.withOpacity(0.5)),
                           child: Center(
                             child: Text(
                               "暂无图片",
@@ -224,7 +216,8 @@ class _IndexPageState extends State<IndexPage>
                             ),
                           ),
                         )
-                      : null,
+                      : imageCached(_articles[index].ossThumbFile[0],
+                          width: 200, height: 100),
                 ),
                 Expanded(
                   child: Column(

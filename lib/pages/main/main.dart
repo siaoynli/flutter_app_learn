@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-14 16:34:31
- * @LastEditTime: 2021-04-15 13:39:45
+ * @LastEditTime: 2021-04-20 10:13:08
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -14,7 +14,7 @@ import 'package:hangzhoutong/common/api/category.dart';
 import 'package:hangzhoutong/common/entity/category.dart';
 import 'package:hangzhoutong/common/utils/screen.dart';
 import 'package:hangzhoutong/common/values/color.dart';
-import 'package:hangzhoutong/common/widgets/index.dart';
+import 'package:hangzhoutong/common/widgets/news.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   _buildPages() {
     List<Widget> pages = [];
     for (var item in _catgories) {
-      pages.add(IndexPage(categoryModel: item));
+      pages.add(NewsPage(categoryModel: item));
     }
     return pages;
   }

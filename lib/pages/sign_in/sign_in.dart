@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-09 10:32:10
- * @LastEditTime: 2021-04-15 10:04:50
+ * @LastEditTime: 2021-04-20 10:21:33
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -224,8 +224,7 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   _handleSignIn() async {
-    Navigator.pushNamed(context, '/app');
-    return;
+    // return;
 
     if (!duIsEmail(_emailController.value.text)) {
       toastInfo(msg: '请正确输入邮件地址', backgroundColor: Colors.red);
@@ -242,6 +241,7 @@ class _SignInPageState extends State<SignInPage> {
     try {
       UserResponseEntity profile = await UserAPI.login(params: params);
       Global.saveProfile(profile);
+      Navigator.pushNamed(context, '/app');
     } catch (e) {
       toastInfo(msg: e.toString(), backgroundColor: Colors.red);
     }
