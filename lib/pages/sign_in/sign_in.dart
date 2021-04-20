@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-09 10:32:10
- * @LastEditTime: 2021-04-20 14:24:25
+ * @LastEditTime: 2021-04-20 16:40:01
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -104,11 +104,13 @@ class _SignInPageState extends State<SignInPage> {
               children: [
                 btnTextButtonWidget(
                   title: "Sign Up",
+                  height: duSetHeight(50),
                   gbColor: AppColors.thirdElement,
                   onPressed: _handleNavSignUp,
                 ),
                 btnTextButtonWidget(
                   title: "Sign In",
+                  height: duSetHeight(50),
                   onPressed: _handleSignIn,
                 ),
               ],
@@ -188,7 +190,7 @@ class _SignInPageState extends State<SignInPage> {
   // 注册按钮
   Widget _buildSignupButton() {
     return Container(
-      margin: EdgeInsets.only(bottom: duSetHeight(20)),
+      margin: EdgeInsets.only(bottom: duSetHeight(30)),
       child: btnTextButtonWidget(
         onPressed: () {
           Navigator.pushNamed(context, '/sign-up');
@@ -210,14 +212,17 @@ class _SignInPageState extends State<SignInPage> {
       body: Container(
         width: 1.sw,
         height: 1.sh,
-        child: Column(
-          children: <Widget>[
-            _buildLogo(),
-            _buildInputForm(),
-            Spacer(),
-            _buildThirdPartyLogin(),
-            _buildSignupButton(),
-          ],
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: <Widget>[
+              _buildLogo(),
+              _buildInputForm(),
+              // Spacer(),
+              _buildThirdPartyLogin(),
+              _buildSignupButton(),
+            ],
+          ),
         ),
       ),
     );
@@ -238,20 +243,22 @@ class _SignInPageState extends State<SignInPage> {
     UserRequestEntity params = UserRequestEntity(
         email: _emailController.value.text,
         password: _passController.value.text);
-    try {
-      UserResponseEntity token = await UserAPI.login(params: params);
-      Global.saveToken(token);
-    } catch (e) {
-      toastInfo(msg: e.toString(), backgroundColor: Colors.red);
-    }
-    try {
-      UserModel user = await UserAPI.authenticate();
-      Global.saveProfile(user);
-    } catch (e) {
-      toastInfo(msg: e.toString(), backgroundColor: Colors.red);
-    }
 
-    Navigator.pushNamed(context, '/app');
+    print("login...");
+
+    UserAPI.login(params: params).then((UserResponseEntity token) {
+      Global.saveToken(token);
+      print("token:$token");
+
+      UserAPI.authenticate(context: context).then((UserModel user) {
+        Global.saveProfile(user);
+        Navigator.pushNamed(context, '/app');
+      }).onError((error, stackTrace) {
+        throw error;
+      });
+    }).onError((error, stackTrace) {
+      toastInfo(msg: error.toString(), backgroundColor: Colors.red);
+    });
   }
 
   void _handleNavSignUp() {

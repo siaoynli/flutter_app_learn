@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-09 15:32:17
- * @LastEditTime: 2021-04-20 10:00:50
+ * @LastEditTime: 2021-04-20 14:42:19
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -40,6 +40,8 @@ class StorageUtil {
 
     return val == null ? false : val;
   }
+
+  Future<bool> remove(String key) => prefs.remove(key);
 
   T get<T>(String key) {
     return prefs.get(key);

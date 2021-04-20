@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-08 16:20:39
- * @LastEditTime: 2021-04-14 16:28:00
+ * @LastEditTime: 2021-04-20 14:44:54
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -16,3 +16,4 @@ export 'security.dart';
 export 'storage.dart';
 export 'net_cache.dart';
 export 'iconfont.dart';
+export 'authentication.dart';

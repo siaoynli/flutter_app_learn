@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-09 15:31:04
- * @LastEditTime: 2021-04-15 14:58:43
+ * @LastEditTime: 2021-04-20 15:42:25
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -11,8 +11,10 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hangzhoutong/common/utils/utils.dart';
 import 'package:hangzhoutong/common/values/values.dart';
+import 'package:hangzhoutong/common/widgets/toast.dart';
 import 'package:hangzhoutong/global.dart';
 
 class HttpUtil {
@@ -62,6 +64,32 @@ class HttpUtil {
     dio.interceptors.add(CookieManager(cookieJar));
 
     dio.interceptors.add(NetCache());
+
+    dio.interceptors.add(
+      InterceptorsWrapper(
+          onRequest:
+              (RequestOptions options, RequestInterceptorHandler handler) =>
+                  handler.next(options),
+          onResponse: (Response response, ResponseInterceptorHandler handler) =>
+              handler.next(response),
+          onError: (
+            DioError err,
+            ErrorInterceptorHandler handler,
+          ) {
+            ErrorEntity eInfo = createErrorEntity(err);
+            toastInfo(msg: eInfo.message);
+            var context = err.requestOptions.extra["context"];
+            if (context != null) {
+              switch (eInfo.code) {
+                case 401:
+                  goLoginPage(context);
+                  break;
+                default:
+                  break;
+              }
+            }
+          }),
+    );
 
     // 添加拦截器
     // dio.interceptors.add(
@@ -191,9 +219,7 @@ class HttpUtil {
 
   Map<String, dynamic> getAuthorizationHeader() {
     var headers;
-    String accessToken = Global.token.accessToken;
-    // String accessToken =
-    //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHBhcGkuaGFuZ3pob3UuY29tLmNuXC92MVwvc2lnbkluIiwiaWF0IjoxNjE4Mzg0Mjg2LCJleHAiOjE2MTg0NzA2ODYsIm5iZiI6MTYxODM4NDI4NiwianRpIjoiMVczMUljTzd4MDlZTVpzUiIsInN1YiI6MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.P103EaaiOHANfd7FfS8LvVk1Eru-0AfPVqTcvS87cuU";
+    String accessToken = Global.token?.accessToken;
     if (accessToken != null) {
       headers = {
         'Authorization': 'Bearer $accessToken',
@@ -209,6 +235,7 @@ class HttpUtil {
   /// cacheKey 缓存key
   Future get(
     String path, {
+    BuildContext context,
     dynamic params,
     Options options,
     bool refresh = false,
@@ -220,6 +247,7 @@ class HttpUtil {
       Options requestOptions = options ?? Options(extra: {}, headers: {});
 
       requestOptions.extra.addAll({
+        "context": context,
         "refresh": refresh,
         "cacheEnable": cacheEnable,
         "list": list,
@@ -237,10 +265,9 @@ class HttpUtil {
           options: requestOptions,
           cancelToken: cancelToken);
 
-      print("path:$path");
-
       return response.data;
     } on DioError catch (e) {
+      print("发生错误:${e.message}");
       throw createErrorEntity(e);
     }
   }
