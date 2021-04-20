@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-20 14:39:52
- * @LastEditTime: 2021-04-20 16:54:48
+ * @LastEditTime: 2021-04-20 16:57:20
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:hangzhoutong/common/utils/utils.dart';
 import 'package:hangzhoutong/common/values/storage.dart';
 import 'package:hangzhoutong/global.dart';
-import 'package:hangzhoutong/pages/index/index.dart';
 
 /// 检查是否有 token
 Future<bool> isAuthenticated() async {
