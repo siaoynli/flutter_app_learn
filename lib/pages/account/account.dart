@@ -3,11 +3,14 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-14 16:40:29
- * @LastEditTime: 2021-04-14 16:40:30
+ * @LastEditTime: 2021-04-20 14:26:11
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
 import 'package:flutter/material.dart';
+import 'package:hangzhoutong/common/provider/provider.dart';
+import 'package:hangzhoutong/global.dart';
+import 'package:provider/provider.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -17,6 +20,24 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final appState = context.watch<AppState>();
+
+    return Column(
+      children: <Widget>[
+        Text('用户: ${Global.user.userName}'),
+        Divider(),
+        MaterialButton(
+          onPressed: () {},
+          child: Text('退出'),
+        ),
+        Divider(),
+        MaterialButton(
+          onPressed: () {
+            appState.switchGreyFilter();
+          },
+          child: Text('灰色切换 ${appState.isGreyFilter}'),
+        ),
+      ],
+    );
   }
 }

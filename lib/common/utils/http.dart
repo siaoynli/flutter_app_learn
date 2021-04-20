@@ -191,7 +191,7 @@ class HttpUtil {
 
   Map<String, dynamic> getAuthorizationHeader() {
     var headers;
-    String accessToken = Global.profile.accessToken;
+    String accessToken = Global.token.accessToken;
     // String accessToken =
     //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcHBhcGkuaGFuZ3pob3UuY29tLmNuXC92MVwvc2lnbkluIiwiaWF0IjoxNjE4Mzg0Mjg2LCJleHAiOjE2MTg0NzA2ODYsIm5iZiI6MTYxODM4NDI4NiwianRpIjoiMVczMUljTzd4MDlZTVpzUiIsInN1YiI6MSwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.P103EaaiOHANfd7FfS8LvVk1Eru-0AfPVqTcvS87cuU";
     if (accessToken != null) {

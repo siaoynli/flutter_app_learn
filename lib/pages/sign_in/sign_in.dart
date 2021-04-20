@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-09 10:32:10
- * @LastEditTime: 2021-04-20 10:21:33
+ * @LastEditTime: 2021-04-20 14:24:25
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -239,12 +239,19 @@ class _SignInPageState extends State<SignInPage> {
         email: _emailController.value.text,
         password: _passController.value.text);
     try {
-      UserResponseEntity profile = await UserAPI.login(params: params);
-      Global.saveProfile(profile);
-      Navigator.pushNamed(context, '/app');
+      UserResponseEntity token = await UserAPI.login(params: params);
+      Global.saveToken(token);
     } catch (e) {
       toastInfo(msg: e.toString(), backgroundColor: Colors.red);
     }
+    try {
+      UserModel user = await UserAPI.authenticate();
+      Global.saveProfile(user);
+    } catch (e) {
+      toastInfo(msg: e.toString(), backgroundColor: Colors.red);
+    }
+
+    Navigator.pushNamed(context, '/app');
   }
 
   void _handleNavSignUp() {

@@ -3,7 +3,7 @@
  * @Github: https://github.com/siaoynli
  * @LastEditors: 西瓜哥
  * @Date: 2021-04-15 11:32:53
- * @LastEditTime: 2021-04-20 10:59:01
+ * @LastEditTime: 2021-04-20 11:03:46
  * @Description:
  * @Copyright: (c) 2021 http://www.hangzhou.com.cn All rights reserved
  */
@@ -199,26 +199,15 @@ class _NewsPageState extends State<NewsPage>
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: duSetWidth(120),
-                  height: duSetWidth(100),
-                  margin: EdgeInsets.only(right: 10),
-                  child: _articles[index].ossThumbFile.length == 0
-                      ? Container(
-                          decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.5)),
-                          child: Center(
-                            child: Text(
-                              "暂无图片",
-                              style: TextStyle(
-                                color: Colors.white54,
-                              ),
-                            ),
-                          ),
-                        )
-                      : imageCached(_articles[index].ossThumbFile[0],
-                          width: 200, height: 100),
-                ),
+                _articles[index].ossThumbFile.length == 0
+                    ? Container()
+                    : Container(
+                        width: duSetWidth(120),
+                        height: duSetWidth(100),
+                        margin: EdgeInsets.only(right: 10),
+                        child: imageCached(_articles[index].ossThumbFile[0],
+                            width: 200, height: 100),
+                      ),
                 Expanded(
                   child: Column(
                     children: [
